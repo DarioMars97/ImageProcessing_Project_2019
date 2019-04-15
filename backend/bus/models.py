@@ -1,7 +1,6 @@
 from django.db import models
 
 
-# Create your models h ere.
 class Zone(models.Model):
     zone_text = models.CharField(max_length=60, unique=True)
 

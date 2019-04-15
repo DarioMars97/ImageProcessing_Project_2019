@@ -28,6 +28,13 @@ def busList(request, format= None):
         return Response(serializer.data)
 
     elif request.method == 'POST':
+        try:
+            bus = Bus.objects.get(bus_number=request.data["bus_number"])
+        except:
+            bus = None
+
+        if bus is not None:
+            return Response("Bus found!", status=status.HTTP_304_NOT_MODIFIED)
         serializer = BusSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -48,6 +55,13 @@ class ZoneList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
+        try:
+            zone = Zone.objects.get(zone_text=request.data["zone_text"])
+        except:
+            zone = None
+
+        if zone is not None:
+            return Response("zone found!", status=status.HTTP_304_NOT_MODIFIED)
         serializer = ZoneSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -87,6 +101,20 @@ class BusZones(APIView):
 
     def post(self, request, busNo, format=None):
         zoneTxt = request.data["zone_text"]
+
+        try:
+            bus = Bus.objects.get(bus_number=busNo)
+        except:
+            bus = None
+
+        if bus is None:
+            bus_serializer = BusSerializer(data={"bus_number": busNo})
+            if bus_serializer.is_valid() is False:
+                return Response(bus_serializer.errors,
+                                status=status.HTTP_400_BAD_REQUEST)
+            bus_serializer.save()
+        else:
+            bus_serializer = BusSerializer(bus)
         bus = Bus.objects.get(bus_number=busNo)
 
         try:
@@ -95,17 +123,19 @@ class BusZones(APIView):
             zone = None
 
         if zone is None:
-            serializer = ZoneSerializer(data=request.data)
-            if serializer.is_valid() is False:
-                return Response(serializer.errors,
+            zone_serializer = ZoneSerializer(data=request.data)
+            if zone_serializer.is_valid() is False:
+                return Response(zone_serializer.errors,
                                 status=status.HTTP_400_BAD_REQUEST)
-            serializer.save()
+            zone_serializer.save()
+        else:
+            zone_serializer = ZoneSerializer(zone)
+        zone = Zone.objects.get(zone_text=zoneTxt)
 
-        bus_serializer = BusSerializer(bus)
-        zone_serializer = ZoneSerializer(zone)
         if zone_serializer.data in bus_serializer["zones"].data:
             return Response("Zone already in bus zones.",
                             status=status.HTTP_302_FOUND)
         bus.zones.add(zone)
         bus.save()
+        bus_serializer = BusSerializer(bus)
         return Response(bus_serializer.data, status=status.HTTP_201_CREATED)

@@ -4,39 +4,40 @@ take an obvious pic of the bus which number is clear and get the user the bus's 
 
 >### This directory is concerned with the server side
 
-###APIs:-
+### APIs:-
+
 #### list all buses (get)
->https://imagep-bus-service-server.herokuapp.com/bus_service/buses
+>https://image-processing-bus-services.herokuapp.com/bus_service/buses
 
 #### add bus (post)
->https://imagep-bus-service-server.herokuapp.com/bus_service/buses
+>https://image-processing-bus-services.herokuapp.com/bus_service/buses
 
 body:-
 >{"bus_number" : 500}
 
 #### list all zones (get)
->https://imagep-bus-service-server.herokuapp.com/bus_service/zones
+>https://image-processing-bus-services.herokuapp.com/bus_service/zones
 
 #### add zone (post)
->https://imagep-bus-service-server.herokuapp.com/bus_service/zones
+>https://image-processing-bus-services.herokuapp.com/bus_service/zones
 
 body:-
 >{"zone_text" : "El Harram"}
 
 #### list all images (get)
->https://imagep-bus-service-server.herokuapp.com/bus_service/upload_image
+>https://image-processing-bus-services.herokuapp.com/bus_service/upload_image
 
 #### add image (post)
->https://imagep-bus-service-server.herokuapp.com/bus_service/upload_image
+>https://image-processing-bus-services.herokuapp.com/bus_service/upload_image
 
 body:-
 >{file : }
 
 #### get zones of a certain bus (get)
->https://imagep-bus-service-server.herokuapp.com/bus_service/bus/1003/zones
+>https://image-processing-bus-services.herokuapp.com/bus_service/bus/1003/zones
 
 #### add zone to certain bus (post)
->https://imagep-bus-service-server.herokuapp.com/bus_service/bus/1003/zones
+>https://image-processing-bus-services.herokuapp.com/bus_service/bus/1003/zones
 
 body:-
 >{"zone_text" : "Imbaba"}
