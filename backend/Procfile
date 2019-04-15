@@ -1,0 +1,1 @@
+web: gunicorn IP_BusService_server.wsgi --log-file -
