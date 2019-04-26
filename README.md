@@ -6,6 +6,7 @@
 
 ## Method used :
     We used OpenCV KNN charachter recognition to recognize the arabic numbers
-    We took this repo (MicrocontrollersAndMore/OpenCV_3_KNN_Character_Recognition_Python#26) as a reference and modified a little to recognize arabic numbers
+    We took this [repo] (https://github.com/MicrocontrollersAndMore/OpenCV_3_KNN_Character_Recognition_Python) as a reference and modified a little to recognize arabic numbers
+    
     
     
