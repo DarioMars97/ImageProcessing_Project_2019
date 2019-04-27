@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from .models import Bus, Zone, Image
 from .serializers import BusSerializer, ZoneSerializer, ImageSerializer
 import json
+from .Train_Test import detect_numbers
 
 
 def busView(request, format= None):
@@ -81,7 +82,8 @@ class ImageUpload(APIView):
             return Response('Request has no resource file attached',
                             status=status.HTTP_400_BAD_REQUEST)
         Image.objects.create(image=file)
-        return HttpResponse("image received", status=status.HTTP_201_CREATED)
+        the_returned = detect_numbers(file)
+        return HttpResponse(the_returned, status=status.HTTP_201_CREATED)
 
     def get(self, request, format=None):
         images = Image.objects.all()

@@ -1,4 +1,4 @@
-##Image Processing Project 2019
+## Image Processing Project 2019
 project about bus services in cairo which process is meant to be : 
 take an obvious pic of the bus which number is clear and get the user the bus's route or to enter his destination and verify that this bus will get him there or not.
 
@@ -31,7 +31,11 @@ body:-
 >https://image-processing-bus-services.herokuapp.com/bus_service/upload_image
 
 body:-
->{file : }
+>{bus_image : %%your file%%}
+
+returns:-
+>the number OR
+>written errors
 
 #### get zones of a certain bus (get)
 >https://image-processing-bus-services.herokuapp.com/bus_service/bus/1003/zones
