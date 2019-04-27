@@ -34,8 +34,18 @@ def busList(request, format= None):
         except:
             bus = None
 
+        try:
+            link = request.data["link"]
+        except:
+            link = None
+
+
         if bus is not None:
-            return Response("Bus found!", status=status.HTTP_304_NOT_MODIFIED)
+            if link is not None:
+                bus.link = link
+                bus.save()
+            bus_serializer = BusSerializer(bus)
+            return Response(bus_serializer.data, status=status.HTTP_201_CREATED)
         serializer = BusSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -76,14 +86,28 @@ class ImageUpload(APIView):
     """
 
     def post(self, request, format=None):
+        file_data = False
+        string_data = False
         try:
             file = request.data['bus_image']
+            file_data = True
         except KeyError:
-            return Response('Request has no resource file attached',
+            try:
+                text = request.data['bus_image_bytes']
+                string_data = True
+            except KeyError:
+                return Response('Request has no resource file attached',
                             status=status.HTTP_400_BAD_REQUEST)
-        Image.objects.create(image=file)
-        the_returned = detect_numbers(file)
-        return HttpResponse(the_returned, status=status.HTTP_201_CREATED)
+        if file_data:
+            Image.objects.create(image=file)
+            the_returned = detect_numbers(file_data=file_data)
+            return HttpResponse(the_returned, status=status.HTTP_201_CREATED)
+        elif string_data:
+            Image.objects.create(text=text)
+            the_returned = detect_numbers(string_data=string_data)
+            return HttpResponse(the_returned, status=status.HTTP_201_CREATED)
+        else:
+            return HttpResponse("upload error", status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, format=None):
         images = Image.objects.all()
@@ -102,7 +126,15 @@ class BusZones(APIView):
         return Response(serializer.data)
 
     def post(self, request, busNo, format=None):
-        zoneTxt = request.data["zone_text"]
+        try:
+            zoneTxt = request.data["zone_text"]
+        except:
+            zoneTxt = None
+
+        try:
+            link = request.data["link"]
+        except:
+            link = None
 
         try:
             bus = Bus.objects.get(bus_number=busNo)
@@ -124,20 +156,25 @@ class BusZones(APIView):
         except:
             zone = None
 
-        if zone is None:
-            zone_serializer = ZoneSerializer(data=request.data)
-            if zone_serializer.is_valid() is False:
-                return Response(zone_serializer.errors,
-                                status=status.HTTP_400_BAD_REQUEST)
-            zone_serializer.save()
-        else:
-            zone_serializer = ZoneSerializer(zone)
-        zone = Zone.objects.get(zone_text=zoneTxt)
+        if link is not None:
+            bus.link = link
 
-        if zone_serializer.data in bus_serializer["zones"].data:
-            return Response("Zone already in bus zones.",
-                            status=status.HTTP_302_FOUND)
-        bus.zones.add(zone)
+        if zoneTxt is not None:
+            if zone is None:
+                zone_serializer = ZoneSerializer(data=request.data)
+                if zone_serializer.is_valid() is False:
+                    return Response(zone_serializer.errors,
+                                    status=status.HTTP_400_BAD_REQUEST)
+                zone_serializer.save()
+            else:
+                zone_serializer = ZoneSerializer(zone)
+
+            zone = Zone.objects.get(zone_text=zoneTxt)
+
+            if zone_serializer.data in bus_serializer["zones"].data:
+                return Response("Zone already in bus zones.",
+                                status=status.HTTP_302_FOUND)
+            bus.zones.add(zone)
         bus.save()
         bus_serializer = BusSerializer(bus)
         return Response(bus_serializer.data, status=status.HTTP_201_CREATED)

@@ -8,6 +8,7 @@ class Zone(models.Model):
 class Bus(models.Model):
     bus_number = models.IntegerField(unique=True)
     zones = models.ManyToManyField(Zone)
+    link = models.TextField(null=True)
 
 
 def bus_file(_, filename):
@@ -19,3 +20,4 @@ class Image(models.Model):
         upload_to=bus_file,
         max_length=254, blank=True, null=True
     )
+    text = models.TextField(null=True)

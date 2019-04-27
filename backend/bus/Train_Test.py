@@ -4,7 +4,7 @@ import operator
 import os
 from django.conf import settings
 from .models import Image
-from IP_BusService_server.settings import BASE_DIR
+import base64
 
 MIN_CONTOUR_AREA = 100
 RESIZED_IMAGE_WIDTH = 20
@@ -32,7 +32,7 @@ class ContourWithData:
         return True
 
 
-def detect_numbers(file):
+def detect_numbers(file_data=False, string_data=False):
     allContoursWithData = []
     validContoursWithData = []
 
@@ -54,9 +54,17 @@ def detect_numbers(file):
     npaClassifications = npaClassifications.reshape((npaClassifications.size, 1))
     kNearest = cv2.ml.KNearest_create()
     kNearest.train(npaFlattenedImages, cv2.ml.ROW_SAMPLE, npaClassifications)
-    image = Image.objects.latest("id")
-    image = image.image.path
-    imgTestingNumbers = cv2.imread(image)
+
+    imgTestingNumbers = None
+    if file_data:
+        image = Image.objects.latest("id")
+        image = image.image.path
+        imgTestingNumbers = cv2.imread(image)
+    elif string_data:
+        image = Image.objects.latest("id")
+        image = image.text
+        nparr = np.fromstring(base64.b64decode(image), np.uint8)
+        imgTestingNumbers = cv2.imdecode(nparr, cv2.IMREAD_ANYCOLOR)
 
     if imgTestingNumbers is None:
         return "error: image not read from file"

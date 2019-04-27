@@ -26,10 +26,10 @@ class BusSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bus
-        fields = ('id', 'bus_number', 'zones')
+        fields = ('id', 'bus_number', 'zones', 'link')
 
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ('id', 'image')
+        fields = ('id', 'image', 'text')
