@@ -13,7 +13,9 @@ take an obvious pic of the bus which number is clear and get the user the bus's 
 >https://image-processing-bus-services.herokuapp.com/bus_service/buses
 
 body:-
->{"bus_number" : 500}
+>{"bus_number" : 500, "link" : "https://goo.gl/maps/uYu6nbmJBCrp7qTb7"}
+
+>link here can be neglected
 
 #### list all zones (get)
 >https://image-processing-bus-services.herokuapp.com/bus_service/zones
@@ -31,7 +33,11 @@ body:-
 >https://image-processing-bus-services.herokuapp.com/bus_service/upload_image
 
 body:-
->{bus_image : %%your file%%}
+>{"bus_image" : %%your file%%}
+
+or
+
+>{"bus_image_bytes" : "byte encoded string base64"}
 
 returns:-
 >the number OR
@@ -44,5 +50,7 @@ returns:-
 >https://image-processing-bus-services.herokuapp.com/bus_service/bus/1003/zones
 
 body:-
->{"zone_text" : "Imbaba"}
+>{"zone_text" : "Imbaba", "link" : "https://goo.gl/maps/uYu6nbmJBCrp7qTb7"}
+
+>can put one of the two
  
