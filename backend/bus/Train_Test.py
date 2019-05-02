@@ -6,7 +6,7 @@ from django.conf import settings
 from .models import Image
 import base64
 
-MIN_CONTOUR_AREA = 100
+MIN_CONTOUR_AREA = 700
 RESIZED_IMAGE_WIDTH = 20
 RESIZED_IMAGE_HEIGHT = 30
 
@@ -124,6 +124,8 @@ def detect_numbers(file_data=False, string_data=False):
         npaROIResized = np.float32(npaROIResized)
         retval, npaResults, neigh_resp, dists = kNearest.findNearest(npaROIResized, k=1)
         strCurrentChar = str(chr(int(npaResults[0][0])))
+        if strCurrentChar == ' ':
+            strCurrentChar = ''
         strFinalString = strFinalString + strCurrentChar
 
     return strFinalString
