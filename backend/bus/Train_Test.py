@@ -64,7 +64,7 @@ def detect_numbers(file_data=False, string_data=False):
         image = Image.objects.latest("id")
         image = image.text
         nparr = np.fromstring(base64.b64decode(image), np.uint8)
-        imgTestingNumbers = cv2.imdecode(nparr, cv2.IMREAD_ANYCOLOR)
+        imgTestingNumbers = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
     if imgTestingNumbers is None:
         return "error: image not read from file"
