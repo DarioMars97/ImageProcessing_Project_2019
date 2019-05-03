@@ -98,16 +98,26 @@ class ImageUpload(APIView):
             except KeyError:
                 return Response('Request has no resource file attached',
                             status=status.HTTP_400_BAD_REQUEST)
+        the_returned = None
         if file_data:
             Image.objects.create(image=file)
             the_returned = detect_numbers(file_data=file_data)
-            return HttpResponse(the_returned, status=status.HTTP_201_CREATED)
         elif string_data:
             Image.objects.create(text=text)
             the_returned = detect_numbers(string_data=string_data)
-            return HttpResponse(the_returned, status=status.HTTP_201_CREATED)
         else:
             return HttpResponse("upload error", status=status.HTTP_400_BAD_REQUEST)
+        try:
+            bus = Bus.objects.get(bus_number=the_returned)
+        except:
+            bus = None
+
+        if bus is None:
+            return Response("Bus is not found in our database please inform us urgently", status=status.HTTP_404_NOT_FOUND)
+
+        serializer = BusSerializer(bus)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
     def get(self, request, format=None):
         images = Image.objects.all()
