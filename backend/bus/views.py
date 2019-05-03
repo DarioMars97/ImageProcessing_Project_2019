@@ -121,7 +121,14 @@ class BusZones(APIView):
     """
 
     def get(self, request, busNo, format=None):
-        bus = Bus.objects.get(bus_number=busNo)
+        try:
+            bus = Bus.objects.get(bus_number=busNo)
+        except:
+            bus = None
+
+        if bus is None:
+            return Response("Bus is not found", status=status.HTTP_404_NOT_FOUND)
+
         serializer = BusSerializer(bus)
         return Response(serializer.data)
 

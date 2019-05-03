@@ -29,7 +29,7 @@ body:-
 #### list all images (get)
 >https://image-processing-bus-services.herokuapp.com/bus_service/upload_image
 
-#### add image (post)
+#### upload image and get bus object (post)
 >https://image-processing-bus-services.herokuapp.com/bus_service/upload_image
 
 body:-
@@ -46,7 +46,7 @@ returns:-
 #### get zones of a certain bus (get)
 >https://image-processing-bus-services.herokuapp.com/bus_service/bus/1003/zones
 
-#### add zone to certain bus (post)
+#### add bus object to certain bus (post)
 >https://image-processing-bus-services.herokuapp.com/bus_service/bus/1003/zones
 
 body:-
