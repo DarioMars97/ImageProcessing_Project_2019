@@ -96,8 +96,14 @@ class ImageUpload(APIView):
                 text = request.data['bus_image_bytes']
                 string_data = True
             except KeyError:
-                return Response('Request has no resource file attached',
-                            status=status.HTTP_400_BAD_REQUEST)
+                try:
+                    file = request.body
+                    file = json.loads(file)
+                    text = file["bus_image_bytes"]
+                    string_data = True
+                except KeyError:
+                    return Response('Request has no resource file attached',
+                                status=status.HTTP_400_BAD_REQUEST)
         the_returned = None
         if file_data:
             Image.objects.create(image=file)
