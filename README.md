@@ -1,7 +1,7 @@
 # ImageProcessing_Project_2019
 
 ## Idea :
-    The user takes or upload  a picture of a bus number then the application shows him the path of that bus on google maps
+The user takes or upload  a picture of a bus number then the application shows him the path of that bus on google maps
     
 
 ## Method used 
