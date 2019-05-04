@@ -27,7 +27,17 @@ class ContourWithData():
     def checkIfContourIsValid(self):                            # this is oversimplified, for a production grade program
         if self.fltArea < MIN_CONTOUR_AREA: return False        # much better validity checking would be necessary
         return True
+
+
+def prepNum(img):
     
+    kernel = np.ones((3,3),np.uint8)
+    img1 = img.copy()
+    gray = cv2.cvtColor(img1,cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray,(7,7),0)
+    thresh = cv2.adaptiveThreshold(blurred,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,11,2) 
+    closing = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
+    return closing
 
 def Train_Test(imgname):
     allContoursWithData = []                # declare empty lists,
@@ -55,15 +65,19 @@ def Train_Test(imgname):
 
     kNearest.train(npaFlattenedImages, cv2.ml.ROW_SAMPLE, npaClassifications)
 
-    imgTestingNumbers = cv2.imread("test13.jpg")          # read in testing numbers image
+    imgTestingNumbers = cv2.imread(imgname)          # read in testing numbers image
 
     if imgTestingNumbers is None:                           # if image was not read successfully
         print ("error: image not read from file \n\n")        # print error message to std out
         os.system("pause")                                  # pause so user can see error message
         return                                              # and exit function (which exits program)
     # end if
+    
+    imgGray = prepNum(imgTestingNumbers)
+    cv2.imshow('',imgGray)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
-    imgGray = cv2.cvtColor(imgTestingNumbers, cv2.COLOR_BGR2GRAY)       # get grayscale image
     imgBlurred = cv2.GaussianBlur(imgGray, (5,5), 0)                    # blur
 
                                                         # filter image from grayscale to black and white
