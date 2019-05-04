@@ -32,6 +32,16 @@ class ContourWithData:
         return True
 
 
+def prepNum(img):
+    kernel = np.ones((3, 3), np.uint8)
+    img1 = img.copy()
+    gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray, (7, 7), 0)
+    thresh = cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+    closing = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
+    return closing
+
+
 def detect_numbers(file_data=False, string_data=False):
     allContoursWithData = []
     validContoursWithData = []
@@ -70,11 +80,13 @@ def detect_numbers(file_data=False, string_data=False):
         return "error: image not read from file"
     # end if
 
-    imgGray = cv2.cvtColor(imgTestingNumbers, cv2.COLOR_BGR2GRAY)
+
+    # imgGray = cv2.cvtColor(imgTestingNumbers, cv2.COLOR_BGR2GRAY)
+    imgGray = prepNum(imgTestingNumbers)
     kernel = np.ones((1, 1), np.uint8)
-    dilated = cv2.dilate(imgGray, kernel, iterations=1)
-    eroded = cv2.erode(dilated, kernel, iterations=1)
-    imgBlurred = cv2.GaussianBlur(eroded, (5, 5), 0)  # blur
+    # dilated = cv2.dilate(imgTestingNumbers, kernel, iterations=1)
+    # eroded = cv2.erode(dilated, kernel, iterations=1)
+    imgBlurred = cv2.GaussianBlur(imgGray, (5, 5), 0)  # blur
 
     imgThresh = cv2.adaptiveThreshold(imgBlurred,
                                       255,
