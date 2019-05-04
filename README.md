@@ -10,6 +10,6 @@ We took this [repo](https://github.com/MicrocontrollersAndMore/OpenCV_3_KNN_Char
 An android [app](https://github.com/MuhammedSabry/Bus-Route.git) to take and upload the picture
 
 ## How it works
-This [video]() shows how the app works
+This [video](https://www.youtube.com/watch?v=tStfsfmlP_U&feature=youtu.be) shows how the app works
 
 
