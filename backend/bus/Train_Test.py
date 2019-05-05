@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import operator
+import imutils
 import os
 from django.conf import settings
 from .models import Image
