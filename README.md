@@ -16,6 +16,12 @@ OpenCV KNN charachter recognition to recognize the arabic numbers
 We took this [repo](https://github.com/MicrocontrollersAndMore/OpenCV_3_KNN_Character_Recognition_Python) as a reference and modified a little to recognize arabic numbers.
 An android [app](https://github.com/MuhammedSabry/Bus-Route.git) to take and upload the picture
 
+## ِAndroid
+rxjava, Gson, imagecropper, dagger and retrofit
+
+## Server
+Django framework, Postgresql, opencv and numpy
+
 ## How it works
 This [video](https://www.youtube.com/watch?v=tStfsfmlP_U&feature=youtu.be) shows how the app works
 
