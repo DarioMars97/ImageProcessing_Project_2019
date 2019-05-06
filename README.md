@@ -23,6 +23,6 @@ rxjava, Gson, imagecropper, dagger and retrofit
 Django framework, Postgresql, opencv and numpy
 
 ## How it works
-This [video](https://www.youtube.com/watch?v=SFog5FCl6OI&feature=youtu.be) shows how the app works
+This [video](https://youtu.be/SFog5FCl6OI) shows how the app works
 
 
