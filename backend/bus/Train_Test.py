@@ -35,7 +35,7 @@ class ContourWithData:
 
 def prepNum(img):
     
-    img = imutils.resize(img,width=1500,height=1500)
+    img = imutils.resize(img,width=500,height=500)
     kernel = np.ones((3,3),np.uint8)
     img1 = img.copy()
     gray = cv2.cvtColor(img1,cv2.COLOR_BGR2GRAY)
@@ -48,7 +48,7 @@ def prepNum(img):
     cnt_areas=[]
     for cnt in cnts:
         area = cv2.contourArea(cnt)
-        if area > 1500:
+        if area > 800:
             cnt_areas.append((area,cnt))
     cnt_areas.sort(key=operator.itemgetter(0),reverse=True)
     num_cnts = len(cnt_areas)
